@@ -1,5 +1,4 @@
 #!/bin/bash
-mkdir -p /tmp/ci
 export TWRP_MANIFEST=https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp
 export TWRP_BRANCH=twrp-12.1
 export DT_LINK=https://github.com/ShazuxD/device_xiaomi_fleur-twrp
