@@ -1,0 +1,75 @@
+name: Commit push
+
+on:
+  workflow_dispatch:
+    inputs:
+      MANIFEST_URL:
+        description: 'MANIFEST_URL (if want to use SSH keys, use git@github.com:XXXXX)'
+        required: true
+        default: 'https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp'
+      MANIFEST_BRANCH:
+        description: 'MANIFEST_BRANCH'
+        required: true
+        default: 'twrp-12.1'
+      DEVICE_TREE_URL:
+        description: 'DEVICE_TREE_URL'
+        required: true
+        default: 'https://github.com/ShazuxD/device_xiaomi_fleur-twrp'
+      DEVICE_TREE_BRANCH:
+        description: 'DEVICE_TREE_BRANCH'
+        required: true
+        default: 'twrp-12.1'
+      DEVICE_PATH:
+        description: 'DEVICE_PATH'
+        required: true
+        default: 'device/xiaomi/fleur'
+      COMMON_TREE_URL:
+        description: 'COMMON_TREE_URL (if no common tree, leave blank)'
+        required: false
+      COMMON_PATH:
+        description: 'COMMON_PATH (if no common tree, leave blank)'
+        required: false
+      DEVICE_NAME:
+        description: 'DEVICE_NAME'
+        required: true
+        default: 'fleur'
+      MAKEFILE_NAME:
+        description: 'MAKEFILE_NAME'
+        required: true
+        default: 'twrp_fleur'
+      BUILD_TARGET:
+        description: 'BUILD_TARGET'
+        required: true
+        default: 'boot'
+jobs:
+  build:
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+    steps:
+    - name: Check Out
+      uses: actions/checkout@v3
+    - name: Display Run Parameters
+      run: |
+        rm config.sh
+        echo "#!/bin/bash" >> config.sh
+        echo "export TWRP_MANIFEST=${{ github.event.inputs.MANIFEST_URL }}" >> config.sh
+        echo "export TWRP_BRANCH=${{ github.event.inputs.MANIFEST_BRANCH }}" >> config.sh
+        echo "export DT_LINK=${{ github.event.inputs.DEVICE_TREE_URL }}" >> config.sh
+        echo "export DT_BRANCH=${{ github.event.inputs.DEVICE_TREE_BRANCH }}" >> config.sh
+        echo "export DEVICE_PATH=${{ github.event.inputs.DEVICE_PATH }}" >> config.sh
+        echo "export DEVICE=${{ github.event.inputs.DEVICE_NAME }}" >> config.sh
+        echo "export MAKEFILE=${{ github.event.inputs.MAKEFILE_NAME }}" >> config.sh
+        echo "export TARGET=${{ github.event.inputs.BUILD_TARGET }}image" >> config.sh
+        echo "export OUTPUT=${{ github.event.inputs.BUILD_TARGET }}.img" >> config.sh
+        echo "::endgroup::"
+        cat config.sh
+
+    - name: Commit & Push changes
+      uses: actions-js/push@master
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
+        author_email: 'ci.twrp@gmail.com'
+        author_name: 'TWRPCI'
+        message: 'TWRPCI: Trigger Build'
