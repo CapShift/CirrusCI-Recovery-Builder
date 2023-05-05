@@ -2,7 +2,7 @@
 
 # Source Vars
 source $CONFIG
-
+mkdir /tmp/ci
 cd /tmp/ci
 ls
 repo init $TWRP_MANIFEST -b $TWRP_BRANCH --depth=1

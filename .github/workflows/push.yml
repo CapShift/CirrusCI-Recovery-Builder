@@ -71,5 +71,5 @@ jobs:
       with:
         github_token: ${{ secrets.GH_TOKEN }}
         author_email: 'ci.twrp@gmail.com'
-        author_name: 'TWRPCI'
-        message: 'TWRPCI: Trigger Build'
+        author_name: 'RecoveryBuilder'
+        message: 'RecoveryBuilder: Trigger Build'

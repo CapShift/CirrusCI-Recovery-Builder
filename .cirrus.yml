@@ -3,7 +3,7 @@ env:
     CIRRUS_SHELL: bash
 
 task:
-  name: "TWRP Recovery Build"
+  name: "CirrusCI-Recovery-Builder"
   timeout_in: 120m
   container:
       image: shazuxdubuntu/ubuntu:latest
@@ -11,8 +11,8 @@ task:
       memory: 20G
 
   Sync_script:
-      - curl -sL https://github.com/ShazuxD/TWRP_BUILDER_CI/raw/main/scripts/sync.sh | bash
+      - curl -sL https://github.com/ShazuxD/CirrusCI-Recovery-Builder/raw/main/scripts/sync.sh | bash
   Build_script:
-      - curl -sL https://github.com/ShazuxD/TWRP_BUILDER_CI/raw/main/scripts/build.sh | bash
+      - curl -sL https://github.com/ShazuxD/CirrusCI-Recovery-Builder/raw/main/scripts/build.sh | bash
   Upload_script:
-      - curl -sL https://github.com/ShazuxD/TWRP_BUILDER_CI/raw/main/scripts/upload.sh | bash
+      - curl -sL https://github.com/ShazuxD/CirrusCI-Recovery-Builder/raw/main/scripts/upload.sh | bash
